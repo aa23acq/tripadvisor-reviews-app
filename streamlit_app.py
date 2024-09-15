@@ -29,6 +29,7 @@ def scrape_tripadvisor(url):
         content = driver.page_source
     except Exception as e:
         content = f"Error occurred: {str(e)}"
+        print(e)
     finally:
         driver.quit()
 
