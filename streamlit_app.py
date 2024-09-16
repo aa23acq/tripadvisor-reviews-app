@@ -39,24 +39,17 @@ def scrape_data(url):
 
         # Wait for the URL to match
         wait.until(EC.url_to_be(url))
-        time.sleep(5)
-        driver.execute_script("alert('Please solve the CAPTCHA and click OK to continue.');")
-
-        # Wait for user to click OK on the alert and CAPTCHA to be solved
-        input("Press Enter after solving CAPTCHA...")
         wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'uqMDf') and contains(@class, 'z') and contains(@class, 'BGJxv') and contains(@class, 'xOykd') and contains(@class, 'jFVeD') and contains(@class, 'yikFK')]")))
-        print("Please solve the CAPTCHA within the next 40 seconds...")
-        # Inject JavaScript to prompt user interaction
-        
+       
       
         # Find parent div containing all reviews
     
         parent_div = driver.find_element(By.XPATH, "//div[contains(@class, 'uqMDf') and contains(@class, 'z') and contains(@class, 'BGJxv') and contains(@class, 'xOykd') and contains(@class, 'jFVeD') and contains(@class, 'yikFK')]")
         print(parent_div)
         # Extract reviews
-        reviews = []
-        review_elements = parent_div.find_elements(By.XPATH, ".//div[contains(@class, 'azLzJ') and contains(@class, 'MI') and contains(@class, 'R2')]")
-        print(review_elements)
+        reviews = [] 
+        review_elements = parent_div.find_elements(By.XPATH, ".//div[contains(@class, 'azLzJ') and contains(@class, 'MI') and contains(@class, 'R2') and contains(@class, 'Gi') and contains(@class, 'z') and contains(@class, 'Z') and contains(@class, 'BB') and contains(@class, 'kYVoW') and contains(@class, 'tpnRZ')]")
+        print({"number of reviews":review_elements})
         for review in review_elements:
             author = review.find_element(By.XPATH, ".//a[contains(@class, 'BMQDV')]").text
             print(author)
