@@ -1,4 +1,4 @@
-# 🎈 Blank app template
+# 🎈 Web Scraping with Selenium
 
 A simple Streamlit app template for you to modify!
 
@@ -13,7 +13,8 @@ A simple Streamlit app template for you to modify!
    ```
 
 2. Run the app
-
+### run 
+`$ proxy` before starting the appication
    ```
    $ streamlit run streamlit_app.py
    ```

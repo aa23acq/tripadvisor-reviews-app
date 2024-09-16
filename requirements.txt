@@ -4,3 +4,4 @@ parsel
 selenium
 webdriver-manager
 pandas
+proxy.py

@@ -1,27 +1,56 @@
 import streamlit as st
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 import pandas as pd
 import time
+import random
+
+# run 'proxy' before starting the appication
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:90.0) Gecko/20100101 Firefox/90.0",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0 Safari/604.1",
+]
+proxies = {
+    'http': 'http://127.0.0.1:8899',
+    'https': 'http://127.0.0.1:8899',
+}
 
 # Function to scrape data from the provided URL using Selenium
 def scrape_data(url):
     try:
+        chrome_options = Options()
+        chrome_options.add_argument("--disable-blink-features=AutomationControlled")  # Disables automation flags
+        chrome_options.add_argument(f'user-agent={random.choice(USER_AGENTS)}')
+        chrome_options.add_argument(f'--proxy-server={proxies["http"]}')
+
         # Set up the Selenium WebDriver
-        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+        driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()),  options=chrome_options)
+      
         wait = WebDriverWait(driver, 10)
         driver.get(url)
 
 
         # Wait for the URL to match
         wait.until(EC.url_to_be(url))
+        time.sleep(5)
+        driver.execute_script("alert('Please solve the CAPTCHA and click OK to continue.');")
+
+        # Wait for user to click OK on the alert and CAPTCHA to be solved
+        input("Press Enter after solving CAPTCHA...")
+        wait.until(EC.presence_of_element_located((By.XPATH, "//div[contains(@class, 'uqMDf') and contains(@class, 'z') and contains(@class, 'BGJxv') and contains(@class, 'xOykd') and contains(@class, 'jFVeD') and contains(@class, 'yikFK')]")))
         print("Please solve the CAPTCHA within the next 40 seconds...")
-        time.sleep(10)
+        # Inject JavaScript to prompt user interaction
+        
+      
         # Find parent div containing all reviews
+    
         parent_div = driver.find_element(By.XPATH, "//div[contains(@class, 'uqMDf') and contains(@class, 'z') and contains(@class, 'BGJxv') and contains(@class, 'xOykd') and contains(@class, 'jFVeD') and contains(@class, 'yikFK')]")
         print(parent_div)
         # Extract reviews
