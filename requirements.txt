@@ -3,3 +3,4 @@ httpx
 parsel
 selenium
 webdriver-manager
+pandas
